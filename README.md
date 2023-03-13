@@ -49,7 +49,7 @@ start
 ChatGPT 启动成功，请输入您的问题：
 使用golang写一个输出helloworld的程序
 
-  下面是适用于Go语言的Hello World程序：
+  以下是使用golang编写的输出helloworld程序：
 
     package main
 
@@ -59,12 +59,12 @@ ChatGPT 启动成功，请输入您的问题：
         fmt.Println("Hello, world!")
     }
 
-  可以在本地编译运行，也可以在很多在线编辑器中编写和运行。
+  通过运行这个程序，终端会输出一个简单的"helloworld"。
 
 
 使用GoLang格式化当前时间为“yyyy-mm-dd hh:ii:ss”格式
 
-  您可以使用以下方式在Go中以“yyyy-mm-dd”格式格式化当前日期：
+  以下是使用GoLang将当前时间格式化为“yyyy-mm-dd hh:ii:ss”的代码：
 
     package main
 
@@ -74,28 +74,16 @@ ChatGPT 启动成功，请输入您的问题：
     )
 
     func main() {
-        t := time.Now()
-        fmt.Println(t.Format("2006-01-02"))
+        currentTime := time.Now()
+        formattedTime := currentTime.Format("2006-01-02 15:04:05")
+        fmt.Println(formattedTime)
     }
 
-  输出将为形如“2022-02-22”的字符串。
+  运行这段代码会输出当前时间的格式化版本，类似于这样： "2021-08-08 15:33:34"
+  (会根据当前时间变化)。
 
-  要以“h:ii:ss”格式格式化当前时间，您可以使用以下方式在Go中：
-
-    package main
-
-    import (
-        "fmt"
-        "time"
-    )
-
-    func main() {
-        t := time.Now()
-        fmt.Println(t.Format("15:04:05"))
-    }
-
-  输出将为形如“14:35:55”的字符串。这里使用了 15:04:05
-  的格式来表示小时、分钟和秒。
+  在这个例子中，我们使用了GoLang的time包来获取当前时间并使用Format()函数将其格式化到指定的布局字符串(例如："2006-
+  01-02 15:04:05")。
 
 
 quit

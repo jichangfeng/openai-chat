@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"fmt"
 	"github.com/charmbracelet/glamour"
@@ -62,8 +63,10 @@ func main() {
 
 	// 读取用户输入并交互
 	var userInput string
-	for {
-		fmt.Scanln(&userInput)
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Split(bufio.ScanLines) // 设置分隔符为换行符
+	for scanner.Scan() {
+		userInput = scanner.Text()
 
 		if strings.ToLower(userInput) == "start" {
 			fmt.Println("ChatGPT 启动成功，请输入您的问题：")
