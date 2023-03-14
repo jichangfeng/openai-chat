@@ -7,19 +7,13 @@ import (
 	"github.com/charmbracelet/glamour"
 	figure "github.com/common-nighthawk/go-figure"
 	openai "github.com/sashabaranov/go-openai"
+	"net/http"
+	"net/url"
 	"os"
 	"strings"
 )
 
 func main() {
-	// 获取 OpenAI Url
-	apiUrl := os.Getenv("OPENAI_URL")
-	if apiUrl == "" {
-		fmt.Println("请设置 OPENAI_URL 环境变量")
-		fmt.Println("    Bash (Linux or macOS): export OPENAI_URL=\"https://api.openai.com\"")
-		fmt.Println("    PowerShell (Windows): $env:OPENAI_URL=\"https://api.openai.com\"")
-		return
-	}
 	// 获取 OpenAI API Key
 	apiKey := os.Getenv("OPENAI_API_KEY")
 	if apiKey == "" {
@@ -28,6 +22,9 @@ func main() {
 		fmt.Println("    PowerShell (Windows): $env:OPENAI_API_KEY=\"XXXXXX\"")
 		return
 	}
+	// 获取 OpenAI HTTP Proxy，默认为空
+	apiHttpProxy := os.Getenv("OPENAI_HTTP_PROXY")
+	apiUrl := "https://api.openai.com"
 
 	// 初始化 Glamour 渲染器
 	renderStyle := glamour.WithEnvironmentConfig()
@@ -47,6 +44,12 @@ func main() {
 	// 创建 ChatGPT 客户端
 	//client := openai.NewClient(apiKey)
 	config := openai.DefaultConfig(apiKey)
+	if apiHttpProxy != "" {
+		proxyURL, _ := url.Parse(apiHttpProxy)
+		config.HTTPClient.Transport = &http.Transport{
+			Proxy: http.ProxyURL(proxyURL),
+		}
+	}
 	config.BaseURL = apiUrl + "/v1"
 	client := openai.NewClientWithConfig(config)
 	if err != nil {

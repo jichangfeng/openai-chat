@@ -2,26 +2,21 @@
 
 使用 Go 语言实现命令行版 ChatGPT 应用
 
-## Build
+## 构建
 
 ```
 shell> go mod tidy
 shell> go build ./chat.go
 ```
 
-## Usage
+## 环境变量
 
-启动这个应用，如果没有设置 OPENAI_URL 系统环境变量，会提示你设置
+| 名称 | 是否必需 | 默认值 | 备注 |
+| ------------ | ------------ | ------------ | ------------ |
+| OPENAI_API_KEY | 是 |  | 必需设置 OpenAI 账户的 API KEY |
+| OPENAI_HTTP_PROXY | 否 |  | 默认为空，可以设置 HTTP 代理 |
 
-```PowerShell
-shell> ./chat.exe
-请设置 OPENAI_URL 环境变量
-    Bash (Linux or macOS): export OPENAI_URL="https://api.openai.com"
-    PowerShell (Windows): $env:OPENAI_URL="https://api.openai.com"
-#
-# 备注：可以设置 OpenAI 官方域名，或者已实现科学上网的代理域名
-shell> $env:OPENAI_URL="https://api.openai.com"
-```
+## 使用示例
 
 启动这个应用，如果没有设置 OPENAI_API_KEY 系统环境变量，会提示你设置
 
@@ -35,7 +30,11 @@ shell> ./chat.exe
 shell> $env:OPENAI_API_KEY="XXXXXX"
 ```
 
-测试使用
+可选的，可以设置已实现“科学上网”的 HTTP 代理
+ - Bash (Linux or macOS): `export OPENAI_HTTP_PROXY="http://127.0.0.1:8118"`
+ - PowerShell (Windows): `$env:OPENAI_HTTP_PROXY="http://127.0.0.1:8118"`
+
+示例
 
 ```PowerShell
 shell> ./chat.exe
