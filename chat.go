@@ -22,9 +22,13 @@ func main() {
 		fmt.Println("    PowerShell (Windows): $env:OPENAI_API_KEY=\"XXXXXX\"")
 		return
 	}
+	// 获取 OpenAI Base Url，默认为 https://api.openai.com
+	apiBaseUrl := os.Getenv("OPENAI_BASE_URL")
+	if apiBaseUrl == "" {
+		apiBaseUrl = "https://api.openai.com"
+	}
 	// 获取 OpenAI HTTP Proxy，默认为空
 	apiHttpProxy := os.Getenv("OPENAI_HTTP_PROXY")
-	apiUrl := "https://api.openai.com"
 
 	// 初始化 Glamour 渲染器
 	renderStyle := glamour.WithEnvironmentConfig()
@@ -39,18 +43,21 @@ func main() {
 	// 输出欢迎语(命令行应用启动界面)
 	myFigure := figure.NewFigure("ChatGPT", "", true)
 	myFigure.Print()
+	fmt.Println("OPENAI_API_KEY: " + apiKey)
+	fmt.Println("OPENAI_BASE_URL: " + apiBaseUrl)
+	fmt.Println("OPENAI_HTTP_PROXY: " + apiHttpProxy)
 	fmt.Println("输入 start 启动应用，输入 quit 退出应用")
 
 	// 创建 ChatGPT 客户端
 	//client := openai.NewClient(apiKey)
 	config := openai.DefaultConfig(apiKey)
+	config.BaseURL = apiBaseUrl + "/v1"
 	if apiHttpProxy != "" {
 		proxyURL, _ := url.Parse(apiHttpProxy)
 		config.HTTPClient.Transport = &http.Transport{
 			Proxy: http.ProxyURL(proxyURL),
 		}
 	}
-	config.BaseURL = apiUrl + "/v1"
 	client := openai.NewClientWithConfig(config)
 	if err != nil {
 		fmt.Printf("创建客户端失败: %s\n", err.Error())
